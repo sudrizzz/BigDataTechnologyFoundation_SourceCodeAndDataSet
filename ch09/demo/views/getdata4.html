@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>YOUTUBE数据集散点图实例</title>
+	<style type="text/css">
+		#a{
+			width: 1000px;
+			height: 400px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="a"></div>
+	<button>点击查看YOUTUBE数据集散点图实例</button>
+	<script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+	<script type="text/javascript" src="/javascripts/echarts.js"></script>
+    <script type="text/javascript">
+        //初始化操作
+        var myChart = echarts.init(document.getElementById('a'));
+        var btn = document.querySelector('button');
+        //以点击按钮响应函数展现页面
+        btn.onclick = function(){
+            //通过ajax请求数据:
+            Ajax('JSON').get('/show-data4',function(data){
+             option = {
+                title: {
+                    text: 'YOUTUBE评论与评分关系',
+                    x:'center'
+                },
+                xAxis: {
+                    name:'评论数'
+                },
+                yAxis: {
+                    name:'总评分'
+                },
+                series: [{
+                    data: data,
+                    //图表类型为散点图
+                    type: 'scatter',
+                    symbolSize: function (data) {
+                    //控制散点大小 使其完整地展现于用户眼前
+                        return Math.sqrt(data[2]) / 1e2;
+                    },
+                    //鼠标悬停标签
+                    label: {
+                        emphasis: {
+                            show: true,
+                            formatter: function (youtubedata) {
+                                //返回值设定为视频类型
+                                return youtubedata.data[3];
+                            },
+                            //在散点上方显示标签
+                            position: 'top'
+                        }
+                    },
+                },]
+            };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+            });
+        }
+    </script>
+</body>
+</html>

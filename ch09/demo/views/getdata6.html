@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#a{
+            margin-left: 200px;
+			width: 600px;
+			height: 400px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="a"></div>
+	<button>点击查看YOUTUBE数据集结构</button>
+	<script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+	<script type="text/javascript" src="/javascripts/echarts.js"></script>
+    <script type="text/javascript">
+        //初始化操作
+        var myChart = echarts.init(document.getElementById('a'));
+        var btn = document.querySelector('button');
+        //以点击按钮响应函数展现页面
+        btn.onclick = function(){
+            //通过ajax请求数据:
+            Ajax('JSON').get('/show-data6',function(data){
+            //获取数据源名称
+            var mydata = data[0].name;
+        option = {
+        title: {
+                    //视图标题
+                    text: 'YOUTUBE数据集构成',
+                    x:'left'
+                },
+        series: {
+            //图表类型为桑基图
+            type: 'sankey',
+            layout:'none',
+            data: data,
+        //关联数据
+        links: [{
+            source: mydata,
+            target: data[1].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[2].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[3].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[4].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[5].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[6].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[7].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[8].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[9].name,
+            value: 1
+        }, {
+            source: mydata,
+            target: data[10].name,
+            value: 1
+        }]
+    }
+};
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+            });
+        }
+    </script>
+</body>
+</html>

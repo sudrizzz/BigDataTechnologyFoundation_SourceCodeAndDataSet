@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>雷达图示例</title>
+	<style type="text/css">
+		#a{
+            margin-left: 200px;
+			width: 800px;
+			height: 600px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="a"></div>
+	<button>点击查看YOUTUBE数据集雷达图示例</button>
+</body>
+	<script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+	<script type="text/javascript" src="/javascripts/echarts.js"></script>
+    <script type="text/javascript">
+        //初始化操作
+        var myChart = echarts.init(document.getElementById('a'));
+        var btn = document.querySelector('button');
+        //以点击按钮响应函数展现页面
+        btn.onclick = function(){
+        //通过ajax请求数据:
+        Ajax('JSON').get('/show-data7',function(data){
+        option = {
+        title: {
+            text: '雷达图示例',
+             x:'center'
+        },
+        //提示框
+        tooltip: {},
+        legend: {
+            //垂直方式显示
+            orient: 'vertical',
+             //图例位置
+            padding: 80,
+            //将图例放在左侧显示
+            left: 'left',
+            data: ['Comedy', 'Education','Entertainment']
+        },
+        radar: {
+            name: {
+                //文本样式设置
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 2,
+                    padding: [2, 3]
+               }
+            },
+            //指示器设置
+            indicator: [
+               { name: '上传平均间隔', max: 1100},
+               { name: '视频平均长度', max: 260},
+               { name: '平均观看数', max: 220000},
+               { name: '平均率', max: 4},
+               { name: '平均评分', max: 1000},
+               { name: '平均评论数', max: 1000}
+            ]
+        },
+        series: [{
+            // 样式为雷达图
+            type: 'radar',
+            //使用YOUTUBE数据集数据
+            data : data
+        }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#a{
+            margin-left: 200px;
+			width: 1600px;
+			height: 800px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="a"></div>
+	<button>点击</button>
+	<script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+	<script type="text/javascript" src="/javascripts/echarts.js"></script>
+	<script type="text/javascript">
+		//初始化操作
+		var myChart = echarts.init(document.getElementById('a'));
+		var btn = document.querySelector('button');
+		//以点击按钮响应函数展现页面
+		btn.onclick = function(){
+			//通过ajax请求数据:
+			Ajax('JSON').get('/show-data5',function(data){
+			console.log(data[0][0]);
+            //数组声明用于接收数据:
+            var type = [];
+            var rank = [];
+            //接收y轴数据:
+            for(var a=0;a<data[1].length;a++){  
+                        type.push(  
+                            data[1][a] 
+                        );  
+                    }
+            //接收x轴数据:
+            for(var a=0;a<data[2].length;a++){  
+                        rank.push(  
+                            data[2][a]
+                        );  
+                    }
+            //指定图表配置项和相关数据
+			data = data[0].map(function (item) {
+             return [item[1], item[0], item[2] || '-'];
+            });
+            option = {
+                title: {
+                    //视图标题
+                    text: 'YOUTUBE数据热力图示例',
+                    x:'center'
+                },
+                animation: false,
+                grid: {
+                    height: '50%',
+                    y: '10%'
+                },
+                //横坐标显示数据
+                xAxis: {
+                    data: rank,
+                },
+                //纵坐标显示数据
+                yAxis: {
+                    data: type,
+                },
+                //视觉映射器设置
+                visualMap: {
+                    min: 0,
+                    max: 50000,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '25%'
+                },
+                series: [{
+                    //图表类型为热力图
+                    type: 'heatmap',
+                    data: data,
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                }]
+            };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+			});
+		}
+	</script>
+</body>
+</html>

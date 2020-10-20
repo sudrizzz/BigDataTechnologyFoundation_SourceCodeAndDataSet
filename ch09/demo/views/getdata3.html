@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>YOUTUBE数据集饼状图实例</title>
+	<style type="text/css">
+		#a{
+			width: 800px;
+			height: 400px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="a"></div>
+	<button>点击查看YOUTUBE数据集饼状图实例</button>
+	<script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+	<script type="text/javascript" src="/javascripts/echarts.js"></script>
+    <script type="text/javascript">
+        //初始化操作
+        var myChart = echarts.init(document.getElementById('a'));
+        var btn = document.querySelector('button');
+        //以点击按钮响应函数展现页面
+        btn.onclick = function(){
+            //通过ajax请求数据:
+            Ajax('JSON').get('/show-data3',function(data){
+            //数组声明用于接收数据:
+            var d1 = [];
+            var d = [];
+            //接收数组数据:包含评论数和视频类型:
+            for(var a=0;a<data.length;a++){  
+                        d.push(  
+                            data[a] 
+                        );  
+                    }
+            //接收视频类型数据:
+            for(var a=0;a<data.length;a++){  
+                        d1.push(  
+                            data[a].name
+                        );  
+                    }
+             option = {
+                title : {
+                    text: 'YOUTUBE数据集饼状图实例',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    // formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    //图例布局方式 默认为水平 这里由于统计项较多 选择垂直显示
+                    orient: 'vertical',
+                    //将图例放在左侧显示
+                    left: 'left',
+                    //图例数据
+                    data: d1
+                },
+                series : [
+                    {
+                        name: 'YOUTUBE类型评论数关系',
+                        //选取图例为饼状图
+                        type: 'pie',
+                        //设置饼状图的大小
+                        radius : '50%',
+                        //设置饼状图显示位置
+                        center: ['50%', '50%'],
+                        //数据显示
+                        data:d,
+                    }
+                ]
+            };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+            });
+        }
+    </script>
+</body>
+</html>

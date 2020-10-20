@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#a{
+			width: 900px;
+			height: 400px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<h3>读取</h3>
+	<div id="a"></div>
+	<button>点击查看YOUTUBE数据集折线图实例</button>
+	<script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+	<script type="text/javascript" src="/javascripts/echarts.js"></script>
+    <script type="text/javascript">
+        //初始化操作
+        var myChart = echarts.init(document.getElementById('a'));
+        var btn = document.querySelector('button');
+        //以点击按钮响应函数展现页面
+        btn.onclick = function(){
+            //通过ajax请求数据:
+            Ajax('JSON').get('/show-data2',function(data){
+            //数组声明用于接收数据:
+            var d1 = [];
+            var d2 = [];
+            var d3 = [];
+            var d4 = [];
+            //接收数据:
+            for(var a=0;a<data.length;a++){  
+                        d1.push(  
+                            data[a].age 
+                        ); 
+                    }
+            //接收数据:
+            for(var a=0;a<data.length;a++){  
+                        d2.push(  
+                            data[a].sum 
+                        ); 
+                    }
+            for(var a=0;a<data.length;a++){  
+                        d3.push(  
+                            data[a].sum2 
+                        ); 
+                    }
+            for(var a=0;a<data.length;a++){  
+                        d4.push(  
+                            data[a].sum3 
+                        ); 
+                    }
+            var option = {
+            // title: {
+            //     text: '视频上传历史时间与数量关系图',
+            //     x:'center'
+            // },    
+            tooltip : {
+                //trigger为axis时显示该列下所有坐标轴所对应的数据
+                trigger: 'axis'
+            },
+            legend: {
+                data:['运动类','音乐类','娱乐类'],
+
+            },
+            xAxis : [
+                {
+                    name:'上传历史时间',
+                    data : d1
+                }
+            ],
+            yAxis : [
+                {
+                    name:'视频上传数',
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'运动类',
+                    //数据展现形式为折线图
+                    type:'line',
+                    data:d2
+                },
+                {
+                    name:'音乐类',
+                    //数据展现形式为折线图
+                    type:'line',
+                    data:d3
+                },
+                {
+                    name:'娱乐类',
+                    //数据展现形式为折线图
+                    type:'line',
+                    data:d4
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+            });
+        }
+    </script>
+</body>
+</html>

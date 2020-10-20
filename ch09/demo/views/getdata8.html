@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>箱线图图示例</title>
+	<style type="text/css">
+		#a{
+            margin-left: 200px;
+			width: 800px;
+			height: 600px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="a"></div>
+	<button>点击查看箱线图示例</button>
+</body>
+	<script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+	<script type="text/javascript" src="/javascripts/echarts.js"></script>
+    <script type="text/javascript" src="/javascripts/dataTool.js"></script>
+    <script type="text/javascript">
+        //初始化操作
+        var myChart = echarts.init(document.getElementById('a'));
+        var btn = document.querySelector('button');
+        //以点击按钮响应函数展现页面
+        btn.onclick = function(){
+        //通过ajax请求数据:
+        Ajax('JSON').get('/show-data8',function(data){
+        //使用Echarts实现箱线图时需要使用到dataTool，我们需要引入dataTool.js文件，可以在githup上获取
+        var data = echarts.dataTool.prepareBoxplotData([data]);
+        option = {
+        title: [
+            {
+                text: '箱线图示例',
+                left: 'center',
+            },
+        ],
+        tooltip: {
+            trigger: 'item',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%'
+        },
+        xAxis: {
+            type: 'category',
+            data: data.axisData,
+            axisLabel: {
+                formatter: '视频类型:Nonprofits & Activism'
+            },
+            splitLine: {
+                show: false
+            }
+        },
+        yAxis: {
+            name: '视频速率',
+        },
+        series: [
+            {
+                name: 'boxplot',
+                type: 'boxplot',
+                data: data.boxData,
+            },
+            {
+                name: 'outlier',
+                type: 'scatter',
+                data: data.outliers
+            }
+        ]
+    };
+        //使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+            });
+        }
+    </script>
+</body>
+</html>

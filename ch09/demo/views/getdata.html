@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#a{
+			width: 800px;
+			height: 400px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<h3>读取</h3>
+	<div id="a"></div>
+	<button>点击</button>
+	<script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+	<script type="text/javascript" src="/javascripts/echarts.js"></script>
+	<script type="text/javascript">
+		//初始化操作
+		var myChart = echarts.init(document.getElementById('a'));
+		var btn = document.querySelector('button');
+		//以点击按钮响应函数展现页面
+		btn.onclick = function(){
+			//通过ajax请求数据:
+			Ajax('JSON').get('/show-data',function(data){
+			//数组声明用于接收数据:
+            //d1接收视频类型
+			var d1 = [];
+            //d2接收上传数量
+			var d2 = [];
+			//接收数据存放在d1中:
+            for(var a=0;a<data.length;a++){  
+                        d1.push(  
+                            data[a].type 
+                        ); 
+                    }
+            //接收数据存放在d2中:
+            for(var a=0;a<data.length;a++){  
+                        d2.push(  
+                            data[a].times 
+                        ); 
+                    }
+            //指定图表配置项和相关数据
+			var option = {
+            //标题
+            title: {
+                text: '使用YOUTUBE数据集'
+            },
+            //提示框
+            tooltip: {},
+            //图例
+            legend: {
+                data:['各类型视频上传数量']
+            },
+            xAxis:{
+            	data:d1,
+                //当数据量过多的时候，X轴的坐标就会显示不全在ECharts图表组件内部有一个机制，用于统计xAxis坐标刻度的个数和图表宽度，从而会自动调整刻度间隔个数以此达到刻度相互之间不致于很拥挤而影响图表欣赏性。刻度间隔的相关属性就是：interval。
+            	axisLabel:{
+            			interval:0,
+                //数据名称过长采用rotate将数据类型名以其数值角度倾斜
+            			rotate:-20,
+            	}
+            },
+            yAxis: {},
+            series: [{
+                name: '各类型视频上传数量',
+                //展现类型为柱形图
+                type: 'bar',
+                data:d2
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+			});
+		}
+	</script>
+</body>
+</html>

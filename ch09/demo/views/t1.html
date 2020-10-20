@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/javascripts/ajax-1.0.js"></script>
+    <script type="text/javascript" src="/javascripts/echarts.js"></script>
+    <script type="text/javascript" src="/javascripts/echarts-wordcloud.min.js"></script>
+    <script type="text/javascript" src="/javascripts/echarts-wordcloud.js"></script>
+    <title>t1</title>
+    <style type="text/css">
+        #main{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <!-- 为echarts准备一个具备大小的Dom容器 -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    
+</body>
+
+<script type="text/javascript">
+
+    //基于准备好的dom 初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    //指定图标配置项和数据                
+    var options = {
+    title: {
+        text: '字符云',
+    },
+    tooltip: {
+        show: true
+    },
+    series: [{
+        name: 'Google Trends',
+        type: 'wordCloud',
+        size: ['80%', '80%'],
+        textRotation : [0, 45, 90, -45],
+        textPadding: 0,
+        autoSize: {
+            enable: true,
+            minSize: 14
+        },
+        data: [
+            {
+                name: "UNA",
+                value: 32,   
+            },
+            {
+                name: "Autos & Vehicles",
+                value: 77,
+            },
+            {
+                name: "Comedy",
+                value: 414,
+            },
+            {
+                name: "Education",
+                value: 65,
+            },
+            {
+                name: "Entertainment",
+                value: 908,
+            },
+            {
+                name: "Film & Animation",
+                value: 206,
+            },
+            {
+                name: "Howto & Style",
+                value: 137,
+            },
+            {
+                name: "Music",
+                value: 862,
+            },
+            {
+                name: "News & Politics",
+                value: 333,
+            },
+            {
+                name: "Nonprofits & Activism",
+                value: 42,
+            },
+            {
+                name: "People & Blogs",
+                value: 42,
+            },
+            {
+                name: "Pets & Animals",
+                value: 94,
+            },
+            {
+                name: "Science & Technology",
+                value: 80,
+            },
+            {
+                name: "Sports",
+                value: 251,
+            },
+            {
+                name: "Travel & Events",
+                value: 112,
+            }
+        ]
+    }]
+};
+    //使用指定配置项和数据显示图表
+    myChart.setOption(options);
+</script>
+</html>
